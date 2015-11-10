@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div id="ytplayer" style="height:650px;width:860px"></div>
+    <div style="height:5px;width:860px;position:relative;background-color:rgb(177, 177, 177)"><div id="show_time" style="position:absolute;top:0;left:0;bottom:0;background-color:rgb(91, 0, 0)"></div></div>
+    <div id="btn_play" style="cursor:pointer">PAUSE</div>
+
+    <style>
+        .pause{
+            background-color: rgba(225, 225, 225, .5);
+        }
+    </style>
+
+    <script type="text/javascript" src="./youtube-player.js"></script>
+    <script type="text/javascript" >
+
+
+    //Youtube.setParam();
+    var oInterval, oScreen;
+    var oPlayer     = Youtube.createPlayer( 'GSadAvJAosU', 'ytplayer');
+
+    oPlayer.onReady = function(){
+        this.mute();
+        this.setQuality( 'small');
+        //this.setSpeed( 2);
+        oScreen = this.getScreen();
+
+        oInterval = setInterval( function(){
+            document.getElementById('show_time').style.width = oPlayer.getCurrentPos()+'%';
+        }, 60);
+    };
+
+    var isPause = false;
+    oPlayer.play();
+    //oPlayer2.play();
+    document.getElementById('btn_play').addEventListener('click',function(){
+
+        if( isPause){
+            oPlayer.play();
+            this.innerText = "PAUSE";
+        }else{
+            oPlayer.pause();
+            this.innerText = "PLAY";
+        }
+
+        isPause = !isPause;
+
+        if( oScreen){
+            oScreen.className = (isPause)? 'pause': '';
+        }
+    });
+
+
+
+    </script>
+</body>
+</html>
